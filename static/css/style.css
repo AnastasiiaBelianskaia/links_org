@@ -1,0 +1,28 @@
+ul {
+    list-style: none;
+}
+
+.wrapper_base {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-width: 200px;
+    border-right: 1px solid gray;
+    padding: 16px;
+    overflow: auto;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    padding: 24px;
+    overflow: auto;
+    background-color: #fafafa;
+}
