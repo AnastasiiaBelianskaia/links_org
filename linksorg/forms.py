@@ -1,8 +1,8 @@
 # from django import forms
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
-# from django.forms import ModelForm
+from django.forms import ModelForm
 
-from .models import User
+from .models import User, Link
 
 
 class RegisterForm(UserCreationForm):
@@ -18,6 +18,12 @@ class PasswordForm(PasswordChangeForm):
         self.user.set_password(password)
         self.user.save()
         return self.user
+
+
+class AddLinkForm(ModelForm):
+    class Meta:
+        model = Link
+        fields = ['url_link', 'category', 'short_definition', 'important']
 
 
 # class UserForm(ModelForm):

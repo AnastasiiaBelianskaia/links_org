@@ -20,7 +20,7 @@
                 <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">LogIn</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'linksorg:index' %}">Main</a></li>
                 {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link active" href="">MyLinks</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'linksorg:user_links' %}">MyLinks</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">LogOut</a></li>
                 {% endif %}
             </ul>

@@ -1,10 +1,12 @@
 # from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 # from django.views.generic import FormView
 
+from .models import Link
 from .forms import RegisterForm
 
 
@@ -27,3 +29,12 @@ class UserRegistrationView(SuccessMessageMixin, generic.FormView):
         user = form.save()
         user.save()
         return super().form_valid(form)
+
+
+class MyLinksListView(LoginRequiredMixin, generic.ListView):
+    model = Link
+    template_name = 'linksorg/my_links.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Link.objects.filter(user__id=self.request.user.id).order_by('-date_time')
