@@ -6,10 +6,12 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django_filters.views import FilterView
 # from django.views.generic import FormView
 
 from .models import Link
 from .forms import RegisterForm, AddLinkForm
+from .filters import LinkFilter
 
 
 def index(request):
@@ -33,10 +35,11 @@ class UserRegistrationView(SuccessMessageMixin, generic.FormView):
         return super().form_valid(form)
 
 
-class MyLinksListView(LoginRequiredMixin, generic.ListView):
+class MyLinksListView(LoginRequiredMixin, FilterView):
     model = Link
     template_name = 'linksorg/my_links.html'
     paginate_by = 10
+    filterset_class = LinkFilter
 
     def get_queryset(self):
         return Link.objects.filter(user__id=self.request.user.id).order_by('-date_time')

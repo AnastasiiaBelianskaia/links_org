@@ -1,15 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Code for filter start-->
+    <div>
+            <form method="get">
+                <div style="display: grid">
+                    {% for field in filter.form %}
+                        <div id="form-field-{{ forloop.counter0 }}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-dark mb-3 mt-2">Filter</button></br>
+                <a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:user_links' %}">Clear Filters</a>
+            </form>
+    </div>
+<!-- Code for filter end-->
   <div>
-        <p><strong>My links:</strong></p>
-            {% for link in object_list %}
-                <span>{{ link }}</span>
-                <a href="{{ link }}" target="_blank">open in a new tab</a>
-                <a href="{{ link }}">open</a></br>
-            {% empty %}
-                <p>No posts yet</p>
-            {% endfor %}
+        <span><strong>My links:</strong></span>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 5%" scope="col">#</th>
+                    <th style="width: 5%" scope="col">Important</th>
+                    <th style="width: 20%" scope="col">Category</th>
+                    <th style="width: 15%" scope="col">Link</th>
+                    <th style="width: 35%" scope="col">Definition</th>
+                    <th style="width: 15%" scope="col">Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in object_list %}
+                <tr>
+                    <th style="width: 5%" scope="row">{{ forloop.counter }}</th>
+                    <th style="width: 5%">
+                        {% if link.important %}
+                            &#10004;
+                        {% else %}
+                            &#10060;
+                        {% endif %}
+                    </th>
+                    <th style="width: 15%">{{ link.category }}</th>
+                    <th style="width: 20%">{{ link }}</br>
+                        <a href="{{ link }}" target="_blank">open in a new tab</a></br>
+                        <a href="{{ link }}">open</a></br>
+                    </th>
+                    <th style="width: 35%">{{ link.short_definition }}</th>
+                    <th style="width: 15%">{{ link.date_time }}</th>
+                </tr>
+                {% empty %}
+                    <span>No links yet</span>
+                {% endfor %}
+            </tbody>
+        </table>
   </div>
 
   <div class="pagination">
