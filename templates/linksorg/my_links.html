@@ -5,7 +5,8 @@
         <p><strong>My links:</strong></p>
             {% for link in object_list %}
                 <span>{{ link }}</span>
-                <a href="{{ link }}">go</a>
+                <a href="{{ link }}" target="_blank">open in a new tab</a>
+                <a href="{{ link }}">open</a></br>
             {% empty %}
                 <p>No posts yet</p>
             {% endfor %}

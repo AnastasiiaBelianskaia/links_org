@@ -1,0 +1,13 @@
+{% block content %}
+    <form class="form js-link-form" action="{% url 'linksorg:add_link' %}" method="post">
+        {% csrf_token %}
+        {% for fm in form %}
+            <table>
+                {{ fm.label }}
+                {{ fm }}
+                {{ fm.help_text }}
+            </table>
+        {% endfor%}
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}
