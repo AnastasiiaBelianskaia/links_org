@@ -45,6 +45,7 @@
                     <th style="width: 20%">{{ link }}</br>
                         <a href="{{ link }}" target="_blank">open in a new tab</a></br>
                         <a href="{{ link }}">open</a></br>
+                        <a href="{% url 'linksorg:delete_link' pk=link.id %}">delete</a>
                     </th>
                     <th style="width: 35%">{{ link.short_definition }}</th>
                     <th style="width: 15%">{{ link.date_time }}</th>

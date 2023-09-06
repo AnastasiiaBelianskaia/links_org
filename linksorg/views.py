@@ -1,7 +1,7 @@
 # from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse
@@ -64,3 +64,12 @@ def add_link(request):
     data['html_form'] = render_to_string(template_name='linksorg/link_form.html',
                                          context={'form': link_form}, request=request)
     return JsonResponse(data)
+
+
+def delete_link(request, pk):
+    link = Link.objects.get(id=pk)
+    if request.method == 'POST':
+        link.delete()
+        return redirect('linksorg:user_links')
+    return render(request, 'linksorg/link_delete.html', {'link': link})
+
