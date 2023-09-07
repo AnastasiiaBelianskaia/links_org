@@ -3,7 +3,9 @@
     <span><strong>Categories:</strong></span>
     <div>
         {% for category in object_list %}
-            <a href="{% url 'linksorg:category_details' pk=category.id %}">{{ category }}</a></br>
+        <div class="wrapper_for_categories">
+            <a class="category" href="{% url 'linksorg:category_details' pk=category.id %}">{{ category }}</a></br>
+        </div>
         {% endfor %}
     </div>
 {% endblock %}

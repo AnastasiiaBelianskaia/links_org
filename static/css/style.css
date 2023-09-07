@@ -26,3 +26,34 @@ ul {
     overflow: auto;
     background-color: #fafafa;
 }
+
+.header.menu_header {
+    align-items: flex-start;
+}
+
+.nav_menu {
+    padding-left: 24px;
+}
+
+.wrapper_for_mylinks_header {
+    margin-bottom: 24px;
+}
+
+.single_block_in_mylinks_header {
+    display: inline-block;
+    padding: 24px;
+}
+
+.wrapper_for_categories {
+    border: 2px solid #c5d9ed;
+    border-radius: 14px;
+    padding: 8px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background-color: #c5d9ed;
+}
+
+.category {
+    text-decoration: none;
+    color: #0d6efd;
+}

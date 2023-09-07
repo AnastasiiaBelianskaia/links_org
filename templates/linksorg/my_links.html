@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="wrapper_for_mylinks_header">
 <!-- Code for filter start-->
-    <div>
+    <div class="single_block_in_mylinks_header">
+            <span><strong>Filters:</strong></span>
             <form method="get">
                 <div style="display: grid">
                     {% for field in filter.form %}
@@ -12,28 +14,34 @@
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="btn btn-dark mb-3 mt-2">Filter</button></br>
-                <a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:user_links' %}">Clear Filters</a>
+                <button type="submit" class="btn btn-primary mb-3 mt-2">Filter</button></br>
+                <a class="btn btn-secondary mb-3 mt-2" href="{% url 'linksorg:user_links' %}">Clear Filters</a>
             </form>
     </div>
 <!-- Code for filter end-->
+    <div class="single_block_in_mylinks_header">
+        <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_create' %}">&#43; Add new Category</a>
+    </div>
+</div>
   <div>
         <span><strong>My links:</strong></span>
         <table class="table">
-            <thead>
+            <thead class="table-primary">
                 <tr>
-                    <th style="width: 5%" scope="col">#</th>
+                    <th style="width: 3%" scope="col">#</th>
                     <th style="width: 5%" scope="col">Important</th>
-                    <th style="width: 20%" scope="col">Category</th>
+                    <th style="width: 15%" scope="col">Category</th>
                     <th style="width: 15%" scope="col">Link</th>
-                    <th style="width: 35%" scope="col">Definition</th>
+                    <th style="width: 32%" scope="col">Definition</th>
                     <th style="width: 15%" scope="col">Added</th>
+                    <th style="width: 5%" scope="col">Copy</th>
+                    <th style="width: 5%" scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {% for link in object_list %}
                 <tr>
-                    <th style="width: 5%" scope="row">{{ forloop.counter }}</th>
+                    <th class="table-primary" style="width: 3%" scope="row">{{ forloop.counter }}</th>
                     <th style="width: 5%">
                         {% if link.important %}
                             &#10004;
@@ -42,13 +50,14 @@
                         {% endif %}
                     </th>
                     <th style="width: 15%">{{ link.category }}</th>
-                    <th style="width: 20%">{{ link }}</br>
-                        <a href="{{ link }}" target="_blank">open in a new tab</a></br>
-                        <a href="{{ link }}">open</a></br>
-                        <a href="{% url 'linksorg:delete_link' pk=link.id %}">delete</a>
+                    <th style="width: 15%"><span id="current-link_{{link.id}}">{{ link }}</span></br>
+                        <a class="" href="{{ link }}" target="_blank">open in a new tab</a></br>
+                        <a class="" href="{{ link }}">open</a></br>
                     </th>
-                    <th style="width: 35%">{{ link.short_definition }}</th>
+                    <th style="width: 32%">{{ link.short_definition }}</th>
                     <th style="width: 15%">{{ link.date_time }}</th>
+                    <th style="width: 5%"><button type="button" data-id="{{ link.id }}" class="js-copy-link btn btn-dark mb-3 mt-2">copy</th>
+                    <th style="width: 5%"><a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_link' pk=link.id %}">delete</a></th>
                 </tr>
                 {% empty %}
                     <span>No links yet</span>
