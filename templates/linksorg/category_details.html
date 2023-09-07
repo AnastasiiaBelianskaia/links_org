@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<p class="text-center"><strong>{{ category.name }}</strong></p>
+    <table class="table">
+        <thead class="table-primary">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Important</th>
+                <th scope="col">Link</th>
+                <th scope="col">Definition</th>
+                <th scope="col">Added</th>
+                <th scope="col">Copy</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for link in links %}
+            <tr>
+                <th class="table-primary" scope="row">{{ forloop.counter }}</th>
+                <th>
+                    {% if link.important %}
+                            &#10004;
+                    {% else %}
+                            &#10060;
+                    {% endif %}
+                </th>
+                <th><span id="current-link_{{link.id}}">{{ link }}</span><br/> <a href="{{ link }}">open</a><br/> <a href="{{ link }}" target="_blank">open in a new tab</a></th>
+                <th>{{ link.short_definition }}</th>
+                <th>{{ link.date_time }}</th>
+                <th><button type="button" data-id="{{ link.id }}" class="js-copy-link btn btn-dark mb-3 mt-2">copy</button></th>
+                <th><a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_link' pk=link.id %}">delete</a></th>
+            </tr>
+            {% empty %}
+                <span>No links in this category</span>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <span><strong>Categories:</strong></span>
+    <div>
+        {% for category in object_list %}
+            <a href="{% url 'linksorg:category_details' pk=category.id %}">{{ category }}</a></br>
+        {% endfor %}
+    </div>
+{% endblock %}
