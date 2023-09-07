@@ -1,17 +1,18 @@
 # from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse
-from django.template.loader import render_to_string
+
 from django_filters.views import FilterView
 # from django.views.generic import FormView
 
-from .models import Link, Category
-from .forms import RegisterForm, AddLinkForm
 from .filters import LinkFilter
+from .forms import AddLinkForm, RegisterForm
+from .models import Category, Link
 
 
 def index(request):
@@ -97,6 +98,7 @@ class MyCategoryDetailView(LoginRequiredMixin, generic.DetailView):
     def get_object(self, queryset=None):
         category = Category.objects.get(id=self.kwargs['pk'])
         return category
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['links'] = Link.objects.filter(category__id=self.kwargs['pk'])

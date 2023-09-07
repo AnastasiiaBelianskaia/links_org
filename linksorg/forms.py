@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import ModelForm
 
-from .models import User, Link, Category
+from .models import Category, Link, User
 
 
 class RegisterForm(UserCreationForm):
