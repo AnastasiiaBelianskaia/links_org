@@ -29,6 +29,11 @@ ul {
 
 .header.menu_header {
     align-items: flex-start;
+    transform: translate(-100%, 0);
+    animation-name: menu;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(.67,-1.21,.05,1.84)
 }
 
 .nav_menu {
@@ -56,4 +61,10 @@ ul {
 .category {
     text-decoration: none;
     color: #0d6efd;
+}
+
+@keyframes menu {
+  to {
+    transform: translate(0, 0);
+  }
 }
