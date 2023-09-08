@@ -9,11 +9,11 @@
     <form action="" method="post">
         {% csrf_token %}
         {% for fm in form %}
-            <table>
+            <table class="table">
                 {{fm.label}}
                 {{fm}}
             </table>
         {% endfor %}
-        <input type="submit" name="submit" value="Submit">
+        <input type="submit" class="btn btn-primary mb-3 mt-2" name="submit" value="Submit">
     </form>
 {% endblock %}
