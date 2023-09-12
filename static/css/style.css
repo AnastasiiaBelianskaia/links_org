@@ -72,3 +72,8 @@ ul {
 .padding-24 {
     padding: 24px;
 }
+
+.modal-error {
+    color: red;
+    text-align: center;
+}

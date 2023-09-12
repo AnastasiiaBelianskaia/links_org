@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form enctype="multipart/form-data" action="" method="post">
+        {% csrf_token %}
+        <span><strong>Category Update:</strong></span>
+        {% for fm in form %}
+        <table class="table">
+            {{ fm }}
+        </table>
+        {% endfor %}
+        <input type="submit" value="update">
+    </form>
+{% endblock %}

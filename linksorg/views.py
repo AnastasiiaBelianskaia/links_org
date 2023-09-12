@@ -1,4 +1,4 @@
-# from django.contrib import messages
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
@@ -103,3 +103,24 @@ class MyCategoryDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['links'] = Link.objects.filter(category__id=self.kwargs['pk'])
         return context
+
+
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    if request.method == 'POST':
+        category.delete()
+        messages.add_message(request, messages.SUCCESS,  "Category has been deleted!")
+        return redirect('linksorg:user_categories')
+    return render(request, 'linksorg/category_delete.html', {'category': category})
+
+
+class CategoryUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+    model = Category
+    fields = ['name']
+    template_name = 'linksorg/category_update_form.html'
+    success_url = reverse_lazy('linksorg:user_categories')
+    success_message = 'Category has been updated!'
+
+    def get_object(self, queryset=None):
+        category_initial = Category.objects.get(id=self.kwargs['pk'])
+        return category_initial

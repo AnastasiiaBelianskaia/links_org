@@ -23,11 +23,15 @@ var saveForm = function () {
       type: form.attr("method"),
       dataType: 'json',
       success: function (data) {
-          $("#modal-linkform .modal-content").html('<p>Link Added</p>');
-          setTimeout(() => {
-            $("#modal-linkform").modal("hide");
-            location.reload();
-          }, 1000)
+          if (data.form_is_valid) {
+              $("#modal-linkform .modal-content").html('<p>Link Added</p>');
+              setTimeout(() => {
+                $("#modal-linkform").modal("hide");
+                location.reload();
+              }, 1000)
+          } else {
+            $("#modal-linkform .modal-content").append('<p class="modal-error">Link already exists</p>');
+          }
       }
     });
     return false;

@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <p class="text-center"><strong>{{ category.name }}</strong></p>
+<div>
+    <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_update' pk=category.id %}">update category</a>
+    <a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_category' pk=category.id %}">delete category</a>
+</div>
     <table class="table">
         <thead class="table-primary">
             <tr>

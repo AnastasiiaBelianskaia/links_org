@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
+# from django.db.models import UniqueConstraint
 
 # from django.utils import timezone
 
@@ -9,6 +10,11 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name'], name='unique_name'),
+        ]
 
     def __str__(self):
         return f"{self.name}"
@@ -25,6 +31,11 @@ class Link(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='links')
     important = models.BooleanField(choices=BOOL, verbose_name='Important or Average')
     date_time = models.DateTimeField('date added', auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['url_link'], name='unique_url'),
+        ]
 
     def __str__(self):
         return self.url_link

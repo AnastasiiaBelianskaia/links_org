@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if messages %}
+            {% for m in messages %}
+            <div class="alert {{ m.tags }} alert-dismissible shadow fade show" role="alert">
+             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">Close</span>
+             </button>
+                {{ m }}
+            </div>
+            {% endfor %}
+    {% endif %}
+
     <span><strong>Categories:</strong></span>
     <div>
         {% for category in object_list %}
         <div class="wrapper_for_categories">
-            <a class="category" href="{% url 'linksorg:category_details' pk=category.id %}">{{ category }}</a></br>
+            <a class="category" href="{% url 'linksorg:category_details' pk=category.id %}">{{ category }}</a>
         </div>
         {% endfor %}
     </div>
