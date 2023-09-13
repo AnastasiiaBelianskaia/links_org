@@ -1,5 +1,5 @@
-const form = $("#modal-linkform");
-const formContent = $("#modal-linkform .modal-content");
+const form = $("#modal-form");
+const formContent = $("#modal-form .modal-content");
 const menu = $("#nav_menu");
 const colorpicker = $("#colorpicker");
 
@@ -8,38 +8,38 @@ const loadForm = (e) => {
     url: e.target.getAttribute("data-url"),
     type: 'get',
     dataType: 'json',
-    beforeSend: function () {
+    beforeSend: () => {
       form.modal("show");
     },
-    success: function (data) {
+    success: (data) => {
       formContent.html(data.html_form);
     }
   });
 };
 
-var saveForm = function () {
-    var form = $(this);
+const saveForm = (e) => {
+    const formEl = $(e.currentTarget);
     $.ajax({
-      url: form.attr("action"),
-      data: form.serialize(),
-      type: form.attr("method"),
+      url: formEl.attr("action"),
+      data: formEl.serialize(),
+      type: formEl.attr("method"),
       dataType: 'json',
-      success: function (data) {
+      success: (data) => {
           if (data.form_is_valid) {
-              $("#modal-linkform .modal-content").html('<p>Link Added</p>');
+              formContent.html(`<p>${formEl.attr("data-id")} Added</p>`);
               setTimeout(() => {
-                $("#modal-linkform").modal("hide");
+                form.modal("hide");
                 location.reload();
               }, 1000)
           } else {
-            $("#modal-linkform .modal-content").append('<p class="modal-error">Link already exists</p>');
+            formContent.append(`<p class="modal-error">${formEl.attr("data-id")} already exists</p>`);
           }
       }
     });
     return false;
-  };
+};
 
- const CopyLink = (e) => {
+const CopyLink = (e) => {
     const button = e.target;
     const linkContent = $(`#current-link_${button.getAttribute("data-id")}`).text();
     navigator.clipboard.writeText(linkContent);
@@ -63,7 +63,9 @@ const changeColor = () => {
 }
 
 $(".js-add-link").click(loadForm);
-$("#modal-linkform").on("submit", ".js-link-form", saveForm);
+$(".js-add-category").click(loadForm);
+form.on("submit", ".js-link-form", saveForm);
+form.on("submit", ".js-category-form", saveForm);
 $(".js-copy-link").click(CopyLink);
 colorpicker.on("change", changeColor);
 

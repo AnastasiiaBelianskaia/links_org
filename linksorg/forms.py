@@ -25,3 +25,9 @@ class AddLinkForm(ModelForm):
         model = Link
         category = forms.ChoiceField(choices=Category.objects.all())
         fields = ['url_link', 'category', 'short_definition', 'important']
+
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
