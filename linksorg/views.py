@@ -8,10 +8,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from django_filters.views import FilterView
-# from django.views.generic import FormView
 
 from .filters import LinkFilter
-from .forms import AddLinkForm, RegisterForm
+from .forms import AddLinkForm, CategoryForm, RegisterForm
 from .models import Category, Link
 
 
@@ -76,10 +75,22 @@ def delete_link(request, pk):
     return render(request, 'linksorg/link_delete.html', {'link': link})
 
 
-class CategoryCreate(LoginRequiredMixin, generic.CreateView):
-    model = Category
-    fields = ['name']
-    success_url = reverse_lazy('linksorg:user_links')
+def add_category(request):
+    data = {}
+    if request.method == 'POST':
+        category_form = CategoryForm(request.POST)
+        if category_form.is_valid():
+            data['form_is_valid'] = True
+            name = category_form.cleaned_data['name']
+            new_category = Category(name=name)
+            new_category.save()
+        else:
+            data['form_is_valid'] = False
+    else:
+        category_form = CategoryForm()
+    data['html_form'] = render_to_string(template_name='linksorg/category_form.html',
+                                         context={'form': category_form}, request=request)
+    return JsonResponse(data)
 
 
 class MyCategoriesListView(LoginRequiredMixin, generic.ListView):

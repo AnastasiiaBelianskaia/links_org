@@ -1,5 +1,5 @@
 {% block content %}
-    <form class="padding-24 js-link-form" action="{% url 'linksorg:add_link' %}" method="post">
+    <form class="padding-24 js-link-form" action="{% url 'linksorg:add_link' %}" method="post" data-id="Link">
         {% csrf_token %}
         {% for fm in form %}
             <table class="table">

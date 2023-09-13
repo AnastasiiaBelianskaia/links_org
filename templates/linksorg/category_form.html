@@ -1,10 +1,9 @@
-{% extends 'base.html' %}
 {% block content %}
-    <form action="" method="post">
-    {% csrf_token %}
-        <table class="table">
-            {{ form.as_table }}
-        </table>
-        <input type="submit"  class="btn btn-primary mb-3 mt-2" value="Add" />
-   </form>
+    <form class="padding-24 js-category-form" action="{% url 'linksorg:category_create' %}" method="post" data-id="Category">
+        {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+        <input type="submit" class="btn btn-primary mb-3 mt-2" value="Add">
+    </form>
 {% endblock %}
