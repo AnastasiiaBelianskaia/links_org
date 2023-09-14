@@ -2,7 +2,7 @@
 {% block content %}
 <p class="text-center"><strong>{{ category.name }}</strong></p>
 <div>
-    <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_update' pk=category.id %}">update category</a>
+    <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_update' pk=category.id %}">update category</a><br/>
     <a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_category' pk=category.id %}">delete category</a>
 </div>
     <table class="table">
@@ -14,7 +14,7 @@
                 <th scope="col">Definition</th>
                 <th scope="col">Added</th>
                 <th scope="col">Copy</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,10 @@
                 <th>{{ link.short_definition }}</th>
                 <th>{{ link.date_time }}</th>
                 <th><button type="button" data-id="{{ link.id }}" class="js-copy-link btn btn-dark mb-3 mt-2">copy</button></th>
-                <th><button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button></th>
+                <th>
+                    <a class="j btn btn-dark mb-3 mt-2" href="{% url 'linksorg:change_link' pk=link.id %}">update</a><br/>
+                    <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
+                </th>
             </tr>
             {% empty %}
                 <span>No links in this category</span>

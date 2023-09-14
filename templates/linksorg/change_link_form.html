@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form class="padding-24" method="post">
+        {% csrf_token %}
+        {% for fm in form %}
+            <table class="table">
+                {{ fm.label }}
+                {{ fm }}
+                {{ fm.help_text }}
+            </table>
+        {% endfor%}
+        <input type="submit" class="btn btn-primary mb-3 mt-2" value="Submit changes">
+    </form>
+{% endblock %}
