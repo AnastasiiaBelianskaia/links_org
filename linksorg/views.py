@@ -1,4 +1,4 @@
-from django.contrib import messages
+# from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
@@ -88,9 +88,7 @@ def delete_category(request, pk):
     category = Category.objects.get(id=pk)
     if request.method == 'POST':
         category.delete()
-        messages.add_message(request, messages.SUCCESS,  "Category has been deleted!")
-        return redirect('linksorg:user_categories')
-    return render(request, 'linksorg/category_delete.html', {'category': category})
+    return redirect('linksorg:user_links')
 
 
 class UserRegistrationView(SuccessMessageMixin, generic.FormView):

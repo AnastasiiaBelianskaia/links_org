@@ -3,7 +3,7 @@
 <p class="text-center"><strong>{{ category.name }}</strong></p>
 <div>
     <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_update' pk=category.id %}">update category</a><br/>
-    <a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_category' pk=category.id %}">delete category</a>
+    <button type="button" class="js-delete-category btn btn-dark mb-3 mt-2" data-action="delete_category" data-id="{{ category.id }}" data-token="{{ csrf_token }}">delete category</button>
 </div>
     <table class="table">
         <thead class="table-primary">
@@ -34,7 +34,7 @@
                 <th><button type="button" data-id="{{ link.id }}" class="js-copy-link btn btn-dark mb-3 mt-2">copy</button></th>
                 <th>
                     <a class="j btn btn-dark mb-3 mt-2" href="{% url 'linksorg:change_link' pk=link.id %}">update</a><br/>
-                    <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
+                    <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-action="delete_link" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
                 </th>
             </tr>
             {% empty %}

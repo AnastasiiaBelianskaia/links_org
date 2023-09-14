@@ -73,7 +73,7 @@
                     </th>
                     <th style="width: 5%">
                         <a class="j btn btn-dark mb-3 mt-2" href="{% url 'linksorg:change_link' pk=link.id %}">update</a>
-                        <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
+                        <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-action="delete_link" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
                     </th>
                 </tr>
                 {% empty %}
