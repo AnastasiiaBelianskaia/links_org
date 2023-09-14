@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-<span>Do you want to delete {{ category }} ?</span>
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete" class="btn btn-dark mb-3 mt-2">
-    </form>
-<span>All links will be deleted!</span>
-{% endblock %}
