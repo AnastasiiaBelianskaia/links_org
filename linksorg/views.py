@@ -71,8 +71,7 @@ def delete_link(request, pk):
     link = Link.objects.get(id=pk)
     if request.method == 'POST':
         link.delete()
-        return redirect('linksorg:user_links')
-    return render(request, 'linksorg/link_delete.html', {'link': link})
+    return redirect('linksorg:user_links')
 
 
 def add_category(request):

@@ -31,7 +31,6 @@
     </div>
 <!-- Code for filter end-->
     <div class="single_block_in_mylinks_header">
-<!--        <a class="btn btn-primary mb-3 mt-2" href="{% url 'linksorg:category_create' %}">&#43; Add new Category</a>-->
         <button class="js-add-category btn btn-primary mb-3 mt-2" data-url="{% url 'linksorg:category_create' %}">&#43; Add new Category</button>
     </div>
 </div>
@@ -68,8 +67,13 @@
                     </th>
                     <th style="width: 32%">{{ link.short_definition }}</th>
                     <th style="width: 15%">{{ link.date_time }}</th>
-                    <th style="width: 5%"><button type="button" data-id="{{ link.id }}" class="js-copy-link btn btn-dark mb-3 mt-2">copy</th>
-                    <th style="width: 5%"><a class="btn btn-dark mb-3 mt-2" href="{% url 'linksorg:delete_link' pk=link.id %}">delete</a></th>
+                    <th style="width: 5%">
+                        <button type="button" data-id="{{ link.id }}"  class="js-copy-link btn btn-dark mb-3 mt-2">copy
+                        </button>
+                    </th>
+                    <th style="width: 5%">
+                        <button type="button" class="js-delete-link btn btn-dark mb-3 mt-2" data-id="{{ link.id }}" data-token="{{ csrf_token }}">delete</button>
+                    </th>
                 </tr>
                 {% empty %}
                     <span>No links yet</span>
