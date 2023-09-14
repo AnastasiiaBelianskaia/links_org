@@ -4,6 +4,7 @@ const menu = $("#nav_menu");
 const colorpicker = $("#colorpicker");
 
 const loadForm = (e) => {
+
   $.ajax({
     url: e.target.getAttribute("data-url"),
     type: 'get',

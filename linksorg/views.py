@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic
 
 from django_filters.views import FilterView
@@ -20,29 +21,6 @@ def index(request):
 
 def about_us(request):
     return render(request, 'linksorg/about_us.html')
-
-
-class UserRegistrationView(SuccessMessageMixin, generic.FormView):
-    form_class = RegisterForm
-    fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
-    template_name = 'registration/registration.html'
-    success_url = reverse_lazy('linksorg:index')
-    success_message = 'Welcome!'
-
-    def form_valid(self, form):
-        user = form.save()
-        user.save()
-        return super().form_valid(form)
-
-
-class MyLinksListView(LoginRequiredMixin, FilterView):
-    model = Link
-    template_name = 'linksorg/my_links.html'
-    paginate_by = 10
-    filterset_class = LinkFilter
-
-    def get_queryset(self):
-        return Link.objects.select_related('category').filter(user__id=self.request.user.id).order_by('-date_time')
 
 
 def add_link(request):
@@ -65,6 +43,20 @@ def add_link(request):
     data['html_form'] = render_to_string(template_name='linksorg/link_form.html',
                                          context={'form': link_form}, request=request)
     return JsonResponse(data)
+
+
+def update_link(request, pk):
+    old_link = Link.objects.get(id=pk)
+    if request.method == 'POST':
+        update_form = AddLinkForm(request.POST, instance=old_link)
+        if update_form.is_valid():
+            updated = update_form.save(commit=False)
+            updated.date_time = timezone.now()
+            updated.save()
+            return redirect('linksorg:user_links')
+    else:
+        update_form = AddLinkForm(instance=old_link)
+    return render(request, 'linksorg/change_link_form.html', {'form': update_form})
 
 
 def delete_link(request, pk):
@@ -92,6 +84,38 @@ def add_category(request):
     return JsonResponse(data)
 
 
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    if request.method == 'POST':
+        category.delete()
+        messages.add_message(request, messages.SUCCESS,  "Category has been deleted!")
+        return redirect('linksorg:user_categories')
+    return render(request, 'linksorg/category_delete.html', {'category': category})
+
+
+class UserRegistrationView(SuccessMessageMixin, generic.FormView):
+    form_class = RegisterForm
+    fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+    template_name = 'registration/registration.html'
+    success_url = reverse_lazy('linksorg:index')
+    success_message = 'Welcome!'
+
+    def form_valid(self, form):
+        user = form.save()
+        user.save()
+        return super().form_valid(form)
+
+
+class MyLinksListView(LoginRequiredMixin, FilterView):
+    model = Link
+    template_name = 'linksorg/my_links.html'
+    paginate_by = 10
+    filterset_class = LinkFilter
+
+    def get_queryset(self):
+        return Link.objects.select_related('category').filter(user__id=self.request.user.id).order_by('-date_time')
+
+
 class MyCategoriesListView(LoginRequiredMixin, generic.ListView):
     model = Category
     template_name = 'linksorg/my_categories.html'
@@ -113,15 +137,6 @@ class MyCategoryDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['links'] = Link.objects.filter(category__id=self.kwargs['pk'])
         return context
-
-
-def delete_category(request, pk):
-    category = Category.objects.get(id=pk)
-    if request.method == 'POST':
-        category.delete()
-        messages.add_message(request, messages.SUCCESS,  "Category has been deleted!")
-        return redirect('linksorg:user_categories')
-    return render(request, 'linksorg/category_delete.html', {'category': category})
 
 
 class CategoryUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
