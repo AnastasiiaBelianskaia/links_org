@@ -62,8 +62,44 @@ const changeColor = () => {
     getColor();
 }
 
+const deleteButton = (e) => {
+    const delButton = e.target;
+    const linkId = delButton.getAttribute("data-id");
+    const token = delButton.getAttribute("data-token");
+    form.modal("show");
+    formContent.html(
+        "<button class='btn btn-outline-secondary pb-3 pt-2 pl=2 pr=2' id='cansel_delete'>cansel</button>" +
+        "<button class='btn btn-primary pb-3 pt-2 pl=2 pr=2' id='success_delete'>confirm delete</button>"
+    )
+
+    const actionDelete = () => (
+        $.ajax({
+          url: `/linksorg/delete_link/${linkId}/`,
+          data: {
+            csrfmiddlewaretoken: token,
+            pk: linkId
+          },
+          type: "post",
+          dataType: 'json',
+          complete: (xhr) => {
+              if (xhr.status === 200) {
+                formContent.html("<p>Link is deleted</p>");
+                setTimeout(() => {
+                  form.modal("hide");
+                  location.reload();
+                }, 1000)
+              }
+          }
+        })
+    )
+
+    $("#success_delete").click(actionDelete);
+    $("#cansel_delete").click(() => form.modal("hide"));
+}
+
 $(".js-add-link").click(loadForm);
 $(".js-add-category").click(loadForm);
+$(".js-delete-link").click(deleteButton);
 form.on("submit", ".js-link-form", saveForm);
 form.on("submit", ".js-category-form", saveForm);
 $(".js-copy-link").click(CopyLink);
