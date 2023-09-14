@@ -65,8 +65,9 @@ const changeColor = () => {
 
 const deleteButton = (e) => {
     const delButton = e.target;
-    const linkId = delButton.getAttribute("data-id");
+    const id = delButton.getAttribute("data-id");
     const token = delButton.getAttribute("data-token");
+    const action = delButton.getAttribute("data-action");
     form.modal("show");
     formContent.html(
         "<button class='btn btn-outline-secondary pb-3 pt-2 pl=2 pr=2' id='cansel_delete'>cansel</button>" +
@@ -75,19 +76,19 @@ const deleteButton = (e) => {
 
     const actionDelete = () => (
         $.ajax({
-          url: `/linksorg/delete_link/${linkId}/`,
+          url: `/linksorg/${action}/${id}/`,
           data: {
             csrfmiddlewaretoken: token,
-            pk: linkId
+            pk: id
           },
           type: "post",
           dataType: 'json',
           complete: (xhr) => {
               if (xhr.status === 200) {
-                formContent.html("<p>Link is deleted</p>");
+                formContent.html("<p>Deleted</p>");
                 setTimeout(() => {
                   form.modal("hide");
-                  location.reload();
+                  action === 'delete_link' ? location.reload() : location.href = "/linksorg/my_links";
                 }, 1000)
               }
           }
@@ -101,6 +102,7 @@ const deleteButton = (e) => {
 $(".js-add-link").click(loadForm);
 $(".js-add-category").click(loadForm);
 $(".js-delete-link").click(deleteButton);
+$(".js-delete-category").click(deleteButton);
 form.on("submit", ".js-link-form", saveForm);
 form.on("submit", ".js-category-form", saveForm);
 $(".js-copy-link").click(CopyLink);
