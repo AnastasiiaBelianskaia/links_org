@@ -27,6 +27,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'qwertyuiopasdfghjklzxcvbnm')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SITE_ID = 2
+
 ALLOWED_HOSTS = []
 
 INTERNAL_IPS = [
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'linksorg',
 
@@ -50,6 +53,10 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'bootstrap5',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
@@ -69,7 +77,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,6 +157,28 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
 # Redirect after login and logout
 LOGIN_REDIRECT_URL = '/linksorg/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+# ACCOUNT_SIGNUP_REDIRECT_URL = "/linksorg/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

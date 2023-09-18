@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if messages %}
+            {% for m in messages %}
+            <div class="alert {{ m.tags }} alert-dismissible shadow fade show" role="alert">
+             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">Close</span>
+             </button>
+                {{ m }}
+            </div>
+            {% endfor %}
+    {% endif %}
+
 <p>Hello, world!</p>
 {% endblock %}
