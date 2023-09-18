@@ -1,0 +1,7 @@
+{% load i18n %}{% autoescape off %}Hello from LinksOrg!
+
+{% block content %}{% endblock content %}
+
+Thank you for using LinksOrg!
+{{ site_domain }}
+{% endautoescape %}

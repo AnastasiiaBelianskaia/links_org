@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block content %}
+    {% if messages %}
+            {% for m in messages %}
+            <div class="alert {{ m.tags }} alert-dismissible shadow fade show" role="alert">
+             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">Close</span>
+             </button>
+                {{ m }}
+            </div>
+            {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <p>Your username and password didn't match. Please try again.</p>
+        </div>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {% for fm in form %}
+            <table class="table">
+                {{ fm.label }}
+                {{ fm }}
+            </table>
+        {% endfor %}
+        <a class="button secondaryAction btn btn-outline-primary" href="{% url 'account_reset_password' %}">Forgot Password?</a></br>
+        <button class="primaryAction btn btn-primary mb-3 mt-2" type="submit">Sign In</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+
+
+        <a class="btn btn-outline-primary" href="{% provider_login_url 'google' %}">
+            <i class="fa-brands fa-google"></i>
+            Login with Google
+        </a>
+{% endblock %}
