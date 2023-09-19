@@ -40,9 +40,10 @@
         <input type="hidden" name="next" value="{{ next }}">
     </form>
 
-
-        <a class="btn btn-outline-primary" href="{% provider_login_url 'google' %}">
+    <div>
+        <a class="btn btn-primary" href="{% provider_login_url 'google' %}">
             <i class="fa-brands fa-google"></i>
             Login with Google
         </a>
+    </div>
 {% endblock %}
